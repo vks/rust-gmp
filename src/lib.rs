@@ -93,6 +93,7 @@ extern "C" {
     fn __gmpz_clrbit(rop: mpz_ptr, bit_index: mp_bitcnt_t);
     fn __gmpz_combit(rop: mpz_ptr, bit_index: mp_bitcnt_t);
     fn __gmpz_tstbit(rop: mpz_srcptr, bit_index: mp_bitcnt_t) -> c_int;
+    fn __gmpz_nextprime(rop: mpz_ptr, op: mpz_srcptr);
     fn __gmpz_gcd(rop: mpz_ptr, op1: mpz_srcptr, op2: mpz_srcptr);
     fn __gmpz_gcdext(g: mpz_ptr, s: mpz_ptr, t: mpz_ptr, a: mpz_srcptr, b: mpz_srcptr);
     fn __gmpz_lcm(rop: mpz_ptr, op1: mpz_srcptr, op2: mpz_srcptr);
@@ -226,6 +227,14 @@ impl Mpz {
         unsafe {
             let mut res = Mpz::new();
             __gmpz_abs(&mut res.mpz, &self.mpz);
+            res
+        }
+    }
+
+    pub fn nextprime(&self) -> Mpz {
+        unsafe {
+            let mut res = Mpz::new();
+            __gmpz_nextprime(&mut res.mpz, &self.mpz);
             res
         }
     }
